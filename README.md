@@ -28,6 +28,7 @@ Deployment is handled entirely through **Terraform** using the configuration pro
 
 Before applying Terraform:
 - Have a working **AWS account** and credentials configured.
+- > See [🔑 AWS Credentials](#aws-credentials) for setup instructions if you haven’t used Terraform with AWS before.
 - Have a **Dynatrace environment** and an **API token** with the `events.ingest` permission.
 - Have the [Terraform CLI installed](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-terraform) on your workstation
 - Ensure you can access the repo’s **Terraform configuration** (contains the Lambda deployment logic).
@@ -56,12 +57,6 @@ The `github_token` is **optional**, but **recommended**:
 You can create a **Personal Access Token (fine-grained or classic)** in your [GitHub Developer Settings](https://github.com/settings/tokens).  
 It only needs **read access** to repository contents (for example, “Contents: Read”).  
 
-> 🧩 Example  
-> In `infra/terraform/terraform.tfvars`:  
-> ```hcl
-> github_token = "github_pat_11BK..."
-> ```  
-> 
 > If you omit it, Terraform will still work for public repos — but may eventually hit rate limits.
 
 
@@ -99,6 +94,10 @@ Terraform automatically:
    aws sqs send-message \
      --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/my-queue \
      --message-body "Hello from test!"
+    ```
+   
+   > 🛡️ **Tip:** You can also send test messages from within the AWS Console.
+
 
 3. Within seconds, check Dynatrace → Events and verify that a new event appears
 
