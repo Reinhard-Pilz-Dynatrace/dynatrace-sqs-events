@@ -205,7 +205,62 @@ To remove all deployed resources, run:
 ```bash
 terraform destroy -auto-approve
 ```
+
+## 🔑 AWS Credentials
+
+Terraform (and the AWS provider) automatically looks for your AWS credentials in several standard locations.  
+You don’t need to configure anything special unless your setup is non-standard.
+
+### Default credential lookup order
+
+1. **Environment variables**  
+   ```bash
+   export AWS_ACCESS_KEY_ID=AKIA...
+   export AWS_SECRET_ACCESS_KEY=abcd...
+   export AWS_DEFAULT_REGION=us-east-1
+   ```
+   *(Recommended for local use or CI/CD pipelines.)*
+
+2. **Shared credentials/config files** (used by the AWS CLI)  
+   ```
+   ~/.aws/credentials
+   ~/.aws/config
+   ```
+   Example:
+   ```ini
+   [default]
+   aws_access_key_id = AKIA...
+   aws_secret_access_key = abcd...
+   region = us-east-1
+   ```
+
+3. **AWS CLI SSO / Named Profiles**  
+   If you use SSO or multiple accounts:
+   ```bash
+   aws sso login --profile myprofile
+   export AWS_PROFILE=myprofile
+   ```
+   Terraform will automatically use the profile specified by `AWS_PROFILE`.
+
+4. **Instance/Container Roles**  
+   When running inside AWS (e.g., Cloud9, EC2, ECS, or GitHub Actions with OIDC),  
+   Terraform automatically uses the environment’s IAM role credentials.
+
+
+### 💡 Tips
+
+- Test your credentials before running Terraform:
+  ```bash
+  aws sts get-caller-identity
+  ```
+  This command confirms you’re authenticated and shows the account and user/role.
+
+- Avoid committing credentials or access keys to Git.
+- Use named profiles (`AWS_PROFILE`) for multiple accounts or roles.
+- In CI/CD, prefer **temporary credentials** or **OIDC federation** over static keys.
+
 ---
+
 ## ✅ Summary
 
 | Feature | Description |
