@@ -27,6 +27,28 @@ Before applying Terraform:
 | `dt_token` | Dynatrace API token (events.ingest) | `dt0c01.abc…` |
 | `github_token` | *(Optional)* A GitHub Token to avoid rate limitations | `github_pat_11BK...` |
 
+### 🪪 About `github_token`
+
+The `github_token` is **optional**, but **recommended**:
+
+- If the GitHub repository is **public**, Terraform can fetch the latest release **without a token**.  
+  However, unauthenticated requests are **rate-limited** (typically 60/hour per IP).  
+  Providing a token avoids those limits.
+
+- If the repository is **private**, the token is **required** so Terraform can access releases and download the Lambda ZIP.
+
+You can create a **Personal Access Token (fine-grained or classic)** in your [GitHub Developer Settings](https://github.com/settings/tokens).  
+It only needs **read access** to repository contents (for example, “Contents: Read”).  
+
+> 🧩 Example  
+> In `infra/terraform/terraform.tfvars`:  
+> ```hcl
+> github_token = "github_pat_11BK..."
+> ```  
+> 
+> If you omit it, Terraform will still work for public repos — but may eventually hit rate limits.
+
+
 ## 🧩 Configure Terraform variables
 * Copy `infra/terraform/terraform.tfvars.example` from this repo to `infra/terraform/terraform.tfvars`.
 * Open `infra/terraform/terraform.tfvars` and update all required variables with your own values.
