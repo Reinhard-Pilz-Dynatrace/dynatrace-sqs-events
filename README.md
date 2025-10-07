@@ -36,12 +36,10 @@ Before applying Terraform:
 Within the folder `infra/terraform/` then run:
 ```bash
 terraform init
-terraform apply
+terraform apply -auto-approve
 ```
 
-💡Confirm the plan with `yes` when prompted.  
-
-You can safely ignore any warnings regarding `UTF-8` at this stage
+> You can safely ignore any warnings regarding `UTF-8` at this stage
 
 Terraform automatically:
 - Downloads the **latest release artifact** (`function-vX.Y.Z.zip`) from GitHub.
