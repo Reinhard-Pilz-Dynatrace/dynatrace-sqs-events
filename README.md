@@ -102,6 +102,8 @@ Terraform automatically:
 
 3. Within seconds, check Dynatrace → Events and verify that a new event appears
 
+![Events in Dynatrace](docs/images/events.png)
+
 ---
 
 ## ⚙️ Lambda Behavior
