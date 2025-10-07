@@ -142,7 +142,6 @@ All events are enriched with:
 - Approximate receive count
 - Timestamps
 - (Optional) Original queue ARN
-  - This identifies the source queue where the message originally failed before landing in the DLQ. Added automatically if the message includes an attribute or JSON field matching the key defined by `DT_ORIGINAL_QUEUE_PROP` (default: `originalQueueArn`)
 
 ---
 
