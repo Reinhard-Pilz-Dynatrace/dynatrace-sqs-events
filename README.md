@@ -1,6 +1,10 @@
 # Dynatrace SQS Event Forwarder
+![AWS Lambda](https://img.shields.io/badge/runtime-provided.al2023-blue)
+![Terraform](https://img.shields.io/badge/Terraform-✔-purple)
+![Dynatrace](https://img.shields.io/badge/Dynatrace-Integration-blueviolet)
 
-This Lambda solution forwards messages from **Amazon SQS** queues to the **Dynatrace Events API** — converting queue messages into Dynatrace events and enriching them with SQS metadata.
+This Lambda solution forwards messages from **Amazon SQS** queues to the **Dynatrace Events API** — converting queue messages into Dynatrace events and enriching them with SQS metadata.  
+It enables seamless integration between AWS and Dynatrace, allowing you to automatically surface operational signals, error notifications, or DLQ entries from your SQS queues as Dynatrace events for observability and alerting.
 
 ---
 
@@ -69,6 +73,18 @@ Terraform automatically:
 - Downloads the **latest release artifact** (`function-vX.Y.Z.zip`) from GitHub.
 - Creates or updates **and** configures the Lambda function via Environment Variables.
 - Subscribes it to the specified SQS queue.
+
+## ✅ Verify the deployment
+
+1. Open the **AWS Lambda console** → select your function.  
+   - Confirm the **SQS trigger** is listed under *Triggers*.
+   - Check that environment variables include your Dynatrace configuration.
+
+2. Send a test message to your SQS queue:
+   ```bash
+   aws sqs send-message \
+     --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/my-queue \
+     --message-body "Hello from test!"
 
 ---
 
@@ -165,6 +181,13 @@ When the `DEBUG` environment variable is set to `true`, each outgoing Dynatrace 
 
 ---
 
+## 🧹 Cleanup
+
+To remove all deployed resources, run:
+```bash
+terraform destroy -auto-approve
+```
+---
 ## ✅ Summary
 
 | Feature | Description |
@@ -174,3 +197,14 @@ When the `DEBUG` environment variable is set to `true`, each outgoing Dynatrace 
 | **DLQ detection** | Prefixes title and enriches metadata |
 | **Terraform deployment** | Uses latest GitHub release automatically |
 | **No build required** | Prebuilt binary is downloaded for you |
+
+## ❓ FAQ
+
+**Q:** Do I need to build or compile anything?  
+**A:** No. Terraform automatically downloads the prebuilt binary from the latest GitHub release.
+
+**Q:** What happens if Dynatrace is temporarily unavailable?  
+**A:** The Lambda invocation will fail, and SQS retries automatically according to your queue’s redrive policy.
+
+**Q:** Can I use multiple queues?  
+**A:** Yes, deploy separate Lambda instances for each queue you want to monitor.
