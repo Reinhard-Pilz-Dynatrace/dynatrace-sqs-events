@@ -86,6 +86,8 @@ Terraform automatically:
      --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/my-queue \
      --message-body "Hello from test!"
 
+3. Within seconds, check Dynatrace → Events and verify that a new event appears
+
 ---
 
 ## ⚙️ Lambda Behavior
