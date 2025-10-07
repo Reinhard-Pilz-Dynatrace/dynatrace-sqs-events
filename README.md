@@ -5,18 +5,8 @@
 ![Dynatrace](https://img.shields.io/badge/Dynatrace-Integration-blueviolet)
 
 This Lambda solution forwards messages from **Amazon SQS** queues to the **Dynatrace Events API** — converting queue messages into Dynatrace events and enriching them with SQS metadata.  
+
 It enables seamless integration between AWS and Dynatrace, allowing you to automatically surface operational signals, error notifications, or DLQ entries from your SQS queues as Dynatrace events for observability and alerting.
-
----
-
-## 📁 Repository structure
-
-| Folder | Description |
-|-----------|--------------|
-| `infra/terraform/` | Terraform files for deployment |
-| `cmd/lambda/` | Go source for the Lambda function (for reference only) |
-| `tools/` | Go source for utilities for local building |
-| `.github/workflows/` | CI/CD pipeline that builds and publishes Lambda ZIPs |
 
 ---
 
@@ -28,7 +18,7 @@ Deployment is handled entirely through **Terraform** using the configuration pro
 
 Before applying Terraform:
 - Have a working **AWS account** and credentials configured.
-- > See [🔑 AWS Credentials](#-aws-credentials) for setup instructions if you haven’t used Terraform with AWS before.
+  - > See [🔑 AWS Credentials](#-aws-credentials) for setup instructions if you haven’t used Terraform with AWS before.
 - Have a **Dynatrace environment** and an **API token** with the `events.ingest` permission.
 - Have the [Terraform CLI installed](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-terraform) on your workstation
 - Ensure you can access the repo’s **Terraform configuration** (contains the Lambda deployment logic).
@@ -275,8 +265,22 @@ You don’t need to configure anything special unless your setup is non-standard
 **Q:** Do I need to build or compile anything?  
 **A:** No. Terraform automatically downloads the prebuilt binary from the latest GitHub release.
 
+**Q:** Am I required to use the prebuilt binaries?  
+**A:** No. Just clone this repository, execute `make zip` and upload and configure your Lambda manually.
+
 **Q:** What happens if Dynatrace is temporarily unavailable?  
 **A:** The Lambda invocation will fail, and SQS retries automatically according to your queue’s redrive policy.
 
 **Q:** Can I use multiple queues?  
 **A:** Yes, deploy separate Lambda instances for each queue you want to monitor.
+
+---
+
+## 📁 Repository structure
+
+| Folder | Description |
+|-----------|--------------|
+| `infra/terraform/` | Terraform files for deployment |
+| `cmd/lambda/` | Go source for the Lambda function (for reference only) |
+| `tools/` | Go source for utilities for local building |
+| `.github/workflows/` | CI/CD pipeline that builds and publishes Lambda ZIPs |
