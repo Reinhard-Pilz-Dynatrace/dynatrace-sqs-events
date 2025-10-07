@@ -27,11 +27,13 @@ Before applying Terraform:
 | `dt_token` | Dynatrace API token (events.ingest) | `dt0c01.abc…` |
 | `github_token` | *(Optional)* A GitHub Token to avoid rate limitations | `github_pat_11BK...` |
 
-## Set variables for Terraform
+## 🧩 Configure Terraform variables
 * Copy `infra/terraform/terraform.tfvars.example` from this repo to `infra/terraform/terraform.tfvars`.
-* Open `infra/terraform/terraform.tfvars` and fill in your environment values`
+* Open `infra/terraform/terraform.tfvars` and update all required variables with your own values.
 
-## Create your Lambda Function using Terraform
+> 🛡️ **Tip:** Your Dynatrace token is only stored locally by Terraform during deployment — don’t commit your `terraform.tfvars` file to version control.
+
+## 🚀 Deploy the Lambda function
 
 Within the folder `infra/terraform/` then run:
 ```bash
@@ -39,7 +41,7 @@ terraform init
 terraform apply -auto-approve
 ```
 
-> You can safely ignore any warnings regarding `UTF-8` at this stage
+> ℹ️ If Terraform prints a “Response body is not recognized as UTF-8” warning, you can safely ignore it — the download contains binary data (the Lambda ZIP file).
 
 Terraform automatically:
 - Downloads the **latest release artifact** (`function-vX.Y.Z.zip`) from GitHub.
@@ -49,6 +51,8 @@ Terraform automatically:
 ---
 
 ## ⚙️ Lambda Behavior
+
+Once deployed, any message arriving in your queue will be automatically transformed and sent to Dynatrace as an event — enriched with full SQS context and ready for analysis in your dashboards and alerting workflows.
 
 ### 1. Raw messages (text)
 If an SQS message body is **plain text**, it is sent to Dynatrace as a new event:
@@ -148,7 +152,3 @@ When the `DEBUG` environment variable is set to `true`, each outgoing Dynatrace 
 | **DLQ detection** | Prefixes title and enriches metadata |
 | **Terraform deployment** | Uses latest GitHub release automatically |
 | **No build required** | Prebuilt binary is downloaded for you |
-
----
-
-> Once deployed, any message arriving in your queue will be automatically transformed and sent to Dynatrace as an event — enriched with full SQS context and ready for analysis in your dashboards and alerting workflows.
