@@ -266,7 +266,7 @@ You don’t need to configure anything special unless your setup is non-standard
 **A:** No. Terraform automatically downloads the prebuilt binary from the latest GitHub release.
 
 **Q:** Am I required to use the prebuilt binaries?  
-**A:** No. Just clone this repository, execute `make zip` and upload and configure your Lambda manually.
+**A:** No. Just clone this repository, execute `make zip` and upload and configure your Lambda manually. Make sure to have Go installed locally for that.
 
 **Q:** What happens if Dynatrace is temporarily unavailable?  
 **A:** The Lambda invocation will fail, and SQS retries automatically according to your queue’s redrive policy.
