@@ -33,9 +33,8 @@ jobs:
 
       - name: Zip with fixed perms/time (Go zipper)
         run: |
-          go run ./tools/zipper bootstrap
-          mv function.zip "$ASSET_NAME"
-          ls -l "$ASSET_NAME"
+          go run -tags=ignore ./tools/zipper bootstrap
+          mv function.zip "function-${{ github.ref_name }}.zip"
 
       - name: Create GitHub Release & upload asset
         uses: softprops/action-gh-release@v2
@@ -45,4 +44,4 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ${{ env.ASSET_NAME }}
+            function-${{ github.ref_name }}.zip
