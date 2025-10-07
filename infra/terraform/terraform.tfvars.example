@@ -1,0 +1,6 @@
+aws_region      = "us-east-1"
+function_name   = "sqs-to-dynatrace"
+queue_arn       = "arn:aws:sqs:us-east-1:123456789012:my-queue"
+dt_url          = "https://abc123.live.dynatrace.com"
+dt_token        = "dt0c01...."
+github_token    = "github_pat_11BK..."
