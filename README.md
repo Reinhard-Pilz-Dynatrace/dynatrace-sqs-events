@@ -28,7 +28,7 @@ Deployment is handled entirely through **Terraform** using the configuration pro
 
 Before applying Terraform:
 - Have a working **AWS account** and credentials configured.
-- > See [🔑 AWS Credentials](#aws-credentials) for setup instructions if you haven’t used Terraform with AWS before.
+- > See [🔑 AWS Credentials](#-aws-credentials) for setup instructions if you haven’t used Terraform with AWS before.
 - Have a **Dynatrace environment** and an **API token** with the `events.ingest` permission.
 - Have the [Terraform CLI installed](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-terraform) on your workstation
 - Ensure you can access the repo’s **Terraform configuration** (contains the Lambda deployment logic).
