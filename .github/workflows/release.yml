@@ -16,7 +16,6 @@ jobs:
       GOARCH: arm64         # or amd64; must match your Lambda architecture
       CGO_ENABLED: 0
       TAG: ${{ github.ref_name }}                  # e.g., v1.0.0
-      ASSET_NAME: function-${{ github.ref_name }}.zip
 
     steps:
       - name: Checkout
