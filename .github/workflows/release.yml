@@ -27,14 +27,15 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Build bootstrap (deterministic)
+      - name: Build executable
         run: |
           go build -tags lambda.norpc -trimpath -ldflags "-s -w -buildid=" -o bootstrap ./cmd/lambda
 
-      - name: Zip with fixed perms/time (Go zipper)
+      - name: Create asset
         run: |
-          go run -tags=ignore ./tools/zipper bootstrap
-          mv function.zip "function-${{ github.ref_name }}.zip"
+          chmod 0755 bootstrap
+          TZ=UTC touch -t 198001010000 bootstrap
+          zip -X -q "function-${{ github.ref_name }}.zip" bootstrap
 
       - name: Create GitHub Release & upload asset
         uses: softprops/action-gh-release@v2
