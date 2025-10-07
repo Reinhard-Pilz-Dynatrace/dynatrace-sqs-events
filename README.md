@@ -1,10 +1,22 @@
 # Dynatrace SQS Event Forwarder
+
 ![AWS Lambda](https://img.shields.io/badge/runtime-provided.al2023-blue)
 ![Terraform](https://img.shields.io/badge/Terraform-✔-purple)
 ![Dynatrace](https://img.shields.io/badge/Dynatrace-Integration-blueviolet)
 
 This Lambda solution forwards messages from **Amazon SQS** queues to the **Dynatrace Events API** — converting queue messages into Dynatrace events and enriching them with SQS metadata.  
 It enables seamless integration between AWS and Dynatrace, allowing you to automatically surface operational signals, error notifications, or DLQ entries from your SQS queues as Dynatrace events for observability and alerting.
+
+---
+
+## 📁 Repository structure
+
+| Folder | Description |
+|-----------|--------------|
+| `infra/terraform/` | Terraform files for deployment |
+| `cmd/lambda/` | Go source for the Lambda function (for reference only) |
+| `tools/` | Go source for utilities for local building |
+| `.github/workflows/` | CI/CD pipeline that builds and publishes Lambda ZIPs |
 
 ---
 
@@ -73,6 +85,8 @@ Terraform automatically:
 - Downloads the **latest release artifact** (`function-vX.Y.Z.zip`) from GitHub.
 - Creates or updates **and** configures the Lambda function via Environment Variables.
 - Subscribes it to the specified SQS queue.
+
+![Deployed Lambda Function](docs/images/lambda.png)
 
 ## ✅ Verify the deployment
 
